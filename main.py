@@ -40,13 +40,11 @@ def find_quotes_by_author(author_name):
     return []
 
 
-# Функція для пошуку цитат за тегом
 def find_quotes_by_tag(tag):
     quotes = db.quotes.find({"tags": tag})
     return list(quotes)
 
 
-# Функція для пошуку цитат за набором тегів
 def find_quotes_by_tags(tags):
     tags_list = tags.split(',')
     quotes = db.quotes.find({"tags": {"$in": tags_list}})
