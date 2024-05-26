@@ -26,7 +26,7 @@ if db.quotes.count_documents({}) == 0:
         for quote_data in quotes_data:
             author = db.authors.find_one({"fullname": quote_data["author"]})
             if author:
-                quote_data["author"] = author["_id"]
+                quote_data["author"] = author['fullname']
                 db.quotes.insert_one(quote_data)
             else:
                 print(f"Author '{quote_data['author']}' not found.")
@@ -35,7 +35,7 @@ if db.quotes.count_documents({}) == 0:
 def find_quotes_by_author(author_name):
     author = db.authors.find_one({"fullname": author_name})
     if author:
-        quotes = db.quotes.find({"author": author["_id"]})
+        quotes = db.quotes.find({"author": author['fullname']})
         return list(quotes)
     return []
 
@@ -63,7 +63,7 @@ def main():
             quotes = find_quotes_by_author(author_name)
             if quotes:
                 for quote in quotes:
-                    author = db.authors.find_one({"_id": quote["author"]})
+                    author = db.authors.find_one({"fullname": quote["author"]})
                     print(f"{author['fullname']}: {quote['quote']}")
             else:
                 print(f"No quotes found for author '{author_name}'.")
@@ -73,7 +73,7 @@ def main():
             quotes = find_quotes_by_tag(tag)
             if quotes:
                 for quote in quotes:
-                    author = db.authors.find_one({"_id": quote["author"]})
+                    author = db.authors.find_one({"fullname": quote["author"]})
                     print(f"{author['fullname']}: {quote['quote']}")
             else:
                 print(f"No quotes found for tag '{tag}'.")
@@ -83,7 +83,7 @@ def main():
             quotes = find_quotes_by_tags(tags)
             if quotes:
                 for quote in quotes:
-                    author = db.authors.find_one({"_id": quote["author"]})
+                    author = db.authors.find_one({"fullname": quote["author"]})
                     print(f"{author['fullname']}: {quote['quote']}")
             else:
                 print(f"No quotes found for tags '{tags}'.")
